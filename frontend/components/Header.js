@@ -1,20 +1,20 @@
-import Nav from './Nav'
-import Link from 'next/link'
-import styled from 'styled-components'
-import Router from 'next/router'
-import NProgress from 'nprogress'
+import Nav from './Nav';
+import Link from 'next/link';
+import styled from 'styled-components';
+import Router from 'next/router';
+import NProgress from 'nprogress';
 
 Router.onChageStart = () => {
   NProgress.start()
-}
+};
 
 Router.onChageComplete = () => {
   NProgress.done()
-}
+};
 
 Router.onChageError = () => {
   NProgress.done()
-}
+};
 
 const Logo = styled.h1`
   font-size: 4rem;
@@ -33,7 +33,7 @@ const Logo = styled.h1`
     margin: 0;
     text-align: center;
   };
-`
+`;
 
 const StyledHeader = styled.div`
   .bar {
@@ -45,15 +45,15 @@ const StyledHeader = styled.div`
     @media (max-width: 1300px) {
       grid-template-columns: 1fr;
       justify-content: center;
-    }
-  }
+    };
+  };
   .sub-bar {
     display: grid;
     grid-template-columns: 1fr auto;
     border-bottom: 1px solid ${props => props.theme.lightgrey};
     
-  }
-`
+  };
+`;
 
 const Header = () => (
   <StyledHeader>

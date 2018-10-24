@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import styled, { ThemeProvider, injectGlobal } from 'styled-components'
-import Header from '../components/Header'
-import Meta from '../components/Meta'
+import React, { Component } from 'react';
+import styled, { ThemeProvider, injectGlobal } from 'styled-components';
+import Header from '../components/Header';
+import Meta from '../components/Meta';
 
 const theme = {
   red: '#FF0000',
@@ -68,4 +68,5 @@ class Page extends Component {
   }
 }
 
-export default Page
+export default Page;
+

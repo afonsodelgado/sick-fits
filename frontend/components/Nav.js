@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import NavStyles from './styles/NavStyles'
+import Link from 'next/link';
+import NavStyles from './styles/NavStyles';
 
 const Nav = () => (
   <NavStyles>
@@ -21,4 +21,4 @@ const Nav = () => (
   </NavStyles>
 )
 
-export default Nav
+export default Nav;

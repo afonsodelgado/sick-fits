@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from 'next/head';
 
 const Meta = () => (
   <Head>
@@ -10,4 +10,4 @@ const Meta = () => (
   </Head>
 )
 
-export default Meta
+export default Meta;
