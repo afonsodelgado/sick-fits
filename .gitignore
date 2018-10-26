@@ -1,6 +1,6 @@
 .DS_Store
 backend/node_modules
 backend/variables.env.sample
-frontend/node_modules
+node_modules
 frontend/.next
 .vscode
