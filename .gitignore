@@ -4,3 +4,5 @@ backend/variables.env.sample
 node_modules
 frontend/.next
 .vscode
+*.env
+
