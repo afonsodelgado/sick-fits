@@ -1,0 +1,7 @@
+type Mutation {
+  initial: String!,
+}
+
+type Query {
+  initial: String!
+}
