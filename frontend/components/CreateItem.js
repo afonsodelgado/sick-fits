@@ -47,6 +47,24 @@ class CreateItem extends Component {
     Router.push({ pathname: '/item', query: { id: res.data.createItem.id } })
   }
 
+  uploadFile = async event => {
+    const files = event.target.files
+    const data = new FormData()
+    data.append('file', files[0])
+    data.append('upload_preset', 'sickfits')
+
+    const res = await fetch('https://api.cloudinary.com/v1_1/dxajus34n/image/upload', {
+      method: 'POST',
+      body: data
+    })
+
+    const file = await res.json()
+    this.setState({
+      image: file.secure_url,
+      largerImage: file.eager[0].secure_url
+    })
+  }
+
   render() {
     return (
       <Mutation
@@ -62,8 +80,20 @@ class CreateItem extends Component {
 
             <fieldset disabled={loading} aria-busy={loading}>
               <label htmlFor="title">
+                Image
+                <input
+                  type="file"
+                  id="file"
+                  name="file"
+                  placeholder="Upload an image"
+                  required
+                  onChange={this.uploadFile}
+                />
+              </label>
+
+              <label htmlFor="title">
                 Title
-          <input
+                <input
                   type="text"
                   id="title"
                   name="title"
@@ -76,7 +106,7 @@ class CreateItem extends Component {
 
               <label htmlFor="title">
                 Price
-          <input
+                <input
                   type="number"
                   id="price"
                   name="price"
@@ -89,7 +119,7 @@ class CreateItem extends Component {
 
               <label htmlFor="title">
                 Description
-          <textarea
+                <textarea
                   id="description"
                   name="description"
                   placeholder="Enter a description"
