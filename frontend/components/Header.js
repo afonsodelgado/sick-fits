@@ -4,15 +4,15 @@ import styled from 'styled-components';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 
-Router.onChageStart = () => {
+Router.onRouteChangeStart = () => {
   NProgress.start()
 };
 
-Router.onChageComplete = () => {
+Router.onRouteChangeComplete = () => {
   NProgress.done()
 };
 
-Router.onChageError = () => {
+Router.onRouteChangeError = () => {
   NProgress.done()
 };
 
