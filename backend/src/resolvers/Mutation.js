@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { randomBytes } = require('crypto')
+const { promisify } = require('util')
 
 const Mutations = {
   // ITEMS MUTATIONS
@@ -62,6 +64,52 @@ const Mutations = {
   signout(parent, args, ctx, info) {
     ctx.response.clearCookie('token')
     return { message: 'Logged out' }
+  },
+  async requestReset(parent, args, ctx, info) {
+    // is this a real user?
+    const user = await ctx.db.query.user({ where: { email: args.email } })
+    if (!user) throw new Error(`No such user found`);
+    // set reset token and expiry on the user
+    const token = await promisify(randomBytes)(20)
+    const resetToken = token.toString('hex')
+    const resetTokenExpiry = Date.now() + 3600000 // 1 hour
+    const res = await ctx.db.mutation.updateUser({
+      where: { email: args.email },
+      data: { resetToken, resetTokenExpiry }
+    })
+    console.log(res)
+    return { message: 'Reset successful' }
+    // email reset token
+  },
+  async resetPassword(parent, args, ctx, info) {
+    // check if the passwords match
+    if (args.password !== args.confirmPassword) throw new Error('The passwords do not match')
+    // check if is a legit resetToken
+    // check if it is exprired
+    const [ user ] = await ctx.db.query.users({
+      where: {
+        resetToken: args.resetToken,
+        resetTokenExpiry_gte: Date.now() - 3600000
+      }
+    })
+
+    if (!user) throw new Error('This token is either invalid or expired')
+    // hash new password
+    const password = await bcrypt.hash(args.password, 10)
+    // save new password and remove reset token fields
+    const updatedUser = await ctx.db.mutation.updateUser({
+      where: { email: user.email },
+      data: { password, resetToken: null, resetTokenExpiry: null }
+    })
+    // generate jwt
+    const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET)
+    // set cookie
+    ctx.response.cookie('token', token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year cookie
+    })
+    // return new user
+    return updatedUser
   }
 };
 
