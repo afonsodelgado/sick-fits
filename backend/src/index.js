@@ -6,6 +6,7 @@ const db = require('./db');
 
 const server = createServer();
 server.express.use(cookieParser());
+
 server.express.use((req, res, next) => {
   const { token } = req.cookies
   if (token) {
@@ -13,6 +14,15 @@ server.express.use((req, res, next) => {
     req.userId = userId
   }
   next()
+})
+
+server.express.use(async (req, res, next) => {
+  if (!req.userId) return next()
+
+  const user = await db.query.user({ where: { id: req.userId } }, '{ id name email permissions }')
+  console.log(user)
+  req.user = user
+  return next()
 })
 
 
