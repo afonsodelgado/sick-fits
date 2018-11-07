@@ -121,7 +121,7 @@ class UserPermissions extends Component {
               <SickButton
                 type="button"
                 disabled={loading}
-                onClick={() => updatePermissions()}
+                onClick={updatePermissions}
               >
                 Updat{loading? 'ing' : 'e'}
               </SickButton>
