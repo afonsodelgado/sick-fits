@@ -138,7 +138,6 @@ const Mutations = {
     if (!ctx.request.userId) throw new Error('You must be logged in')
     
     const user = await ctx.db.query.user({ where: { id: ctx.request.userId } }, info)
-    console.log({ user })
     hasPermission(user, ['ADMIN', 'PERMISSIONUPDATE'])
 
     return ctx.db.mutation.updateUser({
