@@ -29,6 +29,8 @@ function totalItems(cart) {
 
 class TakeMyMoney extends React.Component {
   onToken = async (res, createOrder) => {
+    NProgress.start()
+    
     //the res.id is the stripe token for charging
     const order = await createOrder({
       variables: {
@@ -36,7 +38,10 @@ class TakeMyMoney extends React.Component {
       }
     }).catch(err => alert(err.message))
 
-    console.log(order)
+    Router.push({
+      pathname: '/order',
+      query: { id: order.data.createOrder.id }
+    })
   }
 
   render() {
